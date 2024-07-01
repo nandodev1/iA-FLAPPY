@@ -24,7 +24,7 @@ class Obj:
 		
 class ChecPoint(Obj):
 	def __init__(self, x, y, alt, lar):
-		super().__init__(self, x, y, alt, lar)
+		super().__init__(x, y, alt, lar)
 	def loop(self):
 		self.x -= SPEED_GAME
 
@@ -38,13 +38,13 @@ class Player(Obj):
         self.anti_gravity = 0
         self.angle = 0
         self.active = True
+        self.score = 0
 
     def loop(self):
         self.image = self.sprits[0].next()
         self.image = scale2x(self.image)
         self.image = rotate(self.image, self.angle)
         self.acel += 0.2
-
         self.y += 0.005 + self.acel - self.anti_gravity
 
         if self.anti_gravity > 0:
