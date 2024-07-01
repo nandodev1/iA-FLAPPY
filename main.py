@@ -8,7 +8,7 @@ WIDTH = 286
 HEIGTH = 506
 FPS = 60
 frames = FPS / 12
-BOX_SHOW = True
+BOX_SHOW = False
 
 def main():
 	
@@ -20,7 +20,7 @@ def main():
 #====================================================
 
 	atores = []
-	for i in range(0, 0):
+	for i in range(0, 20):
 		atores.append(Player(50, randint(0, 300), 17, 12, 'bird2.png', 3, (0,0,255), frames))
 	atores.append(Player(50, randint(0, 300), 17, 12, 'bird.png', 3, (0,0,255), frames))
 
@@ -73,7 +73,7 @@ def main():
 			obstacles.append(Tubo_s(WIDTH, 0, 52, tam_tube, 'tubos.png', 2, (0, 255, 255), 1))
 			obstacles.append(Tubo_i(WIDTH, tam_tube + 110, 52, HEIGTH - 100 - tam_tube, 'tubos.png', 2, (0, 255, 255), 1))
 	
-			check_point = ChecPoint(0, 50, 101, 50)
+			check_point = ChecPoint(WIDTH + 60, tam_tube + 1, 1, 110)
 			check_points.append(check_point)
 
 		obstacles.reverse()
@@ -82,6 +82,12 @@ def main():
 			for ator in atores:
 				if ator.collide(obs):
 					ator.active = False
+					
+		for cp in check_points:
+			for ator in atores:
+				if ator.collide(cp):
+					ator.score += 1
+					print(ator.score)
 
 		screen.blit(fundo.image, (fundo.x, fundo.y))
     
@@ -96,6 +102,9 @@ def main():
     
 		for obs in obstacles:
 			obs.loop()
+			
+		for cp in check_points:
+			cp.loop()
 			
 		
 		for obs in obstacles:
@@ -114,6 +123,10 @@ def main():
 		for ator in atores:
 			if not ator.active and ator.x < -50:
 				atores.remove(ator)
+
+		for cp in check_points:
+			if cp.x < - 60:
+				check_points.remove(cp)
             
 		pygame.display.flip()
 		clock.tick(FPS)
